@@ -1,0 +1,7 @@
+.phone{
+    background-color: black;
+    border-radius: 0px 10px 10px 0px;
+    height: 80vh;
+    width: 20vw;
+    min-width: 400px;
+}

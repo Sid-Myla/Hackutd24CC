@@ -6,9 +6,8 @@ from user_functions import get_user_by_id, update_user
 db = firestore.client()
 
 def enlist_business(owner_id, business_name, description, goal, equity):
-    """
-    Allows a user to enlist their business for community investments.
-    """
+    #Allows a user to enlist their business for community investments.
+    
     business_id = str(uuid.uuid4())
     business_data = {
         "business_id": business_id,
@@ -45,9 +44,11 @@ def invest_in_business(user_id, business_id, amount_invested):
     if not owner_id:
         raise ValueError("Business owner not found")
 
-    # Calculate equity share based on total goal and available equity
-    # Example: If goal is $100k, equity offered is 40%, and investment is $10k
-    # Then equity_share = ($10k / $100k) * 40% = 4%
+    '''
+    Calculate equity share based on total goal and available equity
+    Example: If goal is $100k, equity offered is 40%, and investment is $10k
+    Then equity_share = ($10k / $100k) * 40% = 4%
+    '''
     equity_share = (amount_invested / business["goal"]) * business["equity"]
 
     # Update business remaining amount and stakeholder information
@@ -121,9 +122,8 @@ def invest_in_business(user_id, business_id, amount_invested):
 
 
 def get_business_investments(business_id):
-    """
-    Returns the list of investors and their investments for a specific business.
-    """
+    #Returns the list of investors and their investments for a specific business.
+    
     business_ref = db.collection("businesses").document(business_id)
     business = business_ref.get().to_dict()
 

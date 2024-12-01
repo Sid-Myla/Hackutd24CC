@@ -3,6 +3,7 @@ from firebase_admin import firestore
 
 db = firestore.client()
 
+# Define structure for user object in database and create
 def create_user(name, phone_number):
     user_id = str(uuid.uuid4())
     user_data = {
@@ -21,19 +22,23 @@ def create_user(name, phone_number):
     db.collection("user").document(user_id).set(user_data)
     return user_data
 
+# Get user id
 def get_user_by_id(user_id):
     user_ref = db.collection("user").document(user_id)
     user = user_ref.get()
     return user.to_dict() if user.exists else None
 
+# Get user by phone, used for transactions
 def get_user_by_phone(phone_number):
     users_ref = db.collection("user")
     query = users_ref.where("phone_number", "==", phone_number).limit(1).get()
     return query[0].to_dict() if query else None
 
+# Updating user with updated object
 def update_user(user_id, updates):
     db.collection("user").document(user_id).update(updates)
 
+# Deposit money in end user's account
 def deposit_money(user_id, amount):
     user = get_user_by_id(user_id)
     if not user:
@@ -48,10 +53,8 @@ def deposit_money(user_id, amount):
 
     return new_balance
 
+# Get user balance
 def get_wallet_balance(user_id):
-    """
-    Retrieves the wallet balance of a user by their user ID.
-    """
     user = get_user_by_id(user_id)
     if not user:
         raise ValueError("User not found")

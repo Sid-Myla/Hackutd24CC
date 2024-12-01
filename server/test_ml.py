@@ -22,7 +22,7 @@ def calculate_adjusted_credit_score(row):
         'total_emi': -0.1
     }
     
-    # Normalize values
+    # Normalizing values
     delay_days_normalized = min(max(row['Delay_from_due_date'] / 30, 0), 1)
     delayed_payments_normalized = min(max(row['Num_of_Delayed_Payment'] / 10, 0), 1)
     credit_inquiries_normalized = min(max(row['Num_Credit_Inquiries'] / 10, 0), 1)
@@ -75,7 +75,7 @@ data.to_csv(updated_file_path, index=False)
 
 print(f"\nUpdated dataset saved to: {updated_file_path}")
 
-# --- Machine Learning Starts Here ---
+# ------------------ TRAINING THE MODEL STARTS HERE --------------------
 # Features and Target Variable
 features = [
     'Delay_from_due_date', 'Num_of_Delayed_Payment', 
@@ -93,7 +93,7 @@ X = data_cleaned[features]
 y = data_cleaned[target]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train a Random Forest Regressor (keeping the original model parameters)
+# Training the Random Forest Regressor
 model = RandomForestRegressor(n_estimators=100, random_state=42, max_depth=10)
 model.fit(X_train, y_train)
 
@@ -103,11 +103,11 @@ print("\nSample Predictions:")
 df = pd.DataFrame({'Actual': y_test, 'Predicted': y_pred})
 print(df[:20])
 
-# Define multiple tolerance levels for accuracy calculation
+# Accuracy calculation with tolerance level
 def calculate_accuracies(df):
     correct_predictions=0
     for row in df.itertuples():
-        if abs(row.Actual - row.Predicted) <= 50:
+        if abs(row.Actual - row.Predicted) <= 50: # Change tolerance level here
             correct_predictions+=1
     print(correct_predictions)
     print(len(df))
@@ -124,15 +124,6 @@ accuracy_tol = calculate_accuracies(df)
 
 
 print(f"Accuracy: {accuracy_tol:.2f}%")
-
-# # Additional analysis of prediction errors
-# errors = np.abs(y_test - y_pred)
-# print("\nError Distribution:")
-# print(f"Maximum Error: {np.max(errors):.2f} points")
-# print(f"Minimum Error: {np.min(errors):.2f} points")
-# print(f"Median Error: {np.median(errors):.2f} points")
-# print(f"75th Percentile Error: {np.percentile(errors, 75):.2f} points")
-# print(f"90th Percentile Error: {np.percentile(errors, 90):.2f} points")
 
 # Calculate score ranges for credit categories
 def get_prediction_category(score):
@@ -152,7 +143,6 @@ y_test_categories = [get_prediction_category(score) for score in y_test]
 y_pred_categories = [get_prediction_category(score) for score in y_pred]
 category_accuracy = np.mean(np.array(y_test_categories) == np.array(y_pred_categories)) * 100
 
-#print(f"\nCategory Prediction Accuracy: {category_accuracy:.2f}%")
 
 # Save the trained model
 import joblib

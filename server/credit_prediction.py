@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 
 def prediction(income, loans):
+    # Load model from pickle file
     model = joblib.load('../credit_score_model2.pkl')
 
     features = [
@@ -12,6 +13,8 @@ def prediction(income, loans):
         'Monthly_Inhand_Salary', 'Interest_Rate', 'Num_of_Loan'
     ]
 
+    # Create new feature vector with new data
+    # Change data when we get actual data, currently using column averages
     new_data = pd.DataFrame([[
         21, 13, 5, 49.66, 45.47, 33.13, income, 14, loans
     ]], columns=features)

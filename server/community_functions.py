@@ -7,7 +7,7 @@ from transaction_functions import create_transaction
 db = firestore.client()
 
 def contribute_to_community(user_id, amount):
-    """Allows a user to contribute to the community fund."""
+    #Allows a user to contribute to the community fund
     user = get_user_by_id(user_id)
     if not user:
         raise ValueError("User not found")
@@ -35,7 +35,6 @@ def contribute_to_community(user_id, amount):
     else:
         community["contributors"].append({"user_id": user_id, "amount": amount})
 
-    # Save to Firestore
     community_ref.set(community)
 
     # Record transaction
@@ -44,7 +43,7 @@ def contribute_to_community(user_id, amount):
     return community
 
 def request_loan(user_id, amount, description, credit_score):
-    """Allows a user to request a loan."""
+    #Allows a user to request a loan
     emi = calculate_emi(amount, credit_score)  # Function to calculate EMI
 
     loan_request = {
@@ -74,10 +73,8 @@ def request_loan(user_id, amount, description, credit_score):
     community_ref.set(community)
     return loan_request
 
+# Allows a user to request a loan. The loan_id is added to the user's document
 def request_loan(user_id, amount, description, credit_score):
-    """
-    Allows a user to request a loan. The loan_id is added to the user's document.
-    """
     # Calculate the EMI for the loan
     emi = calculate_emi(amount, credit_score)
 
@@ -123,8 +120,8 @@ def request_loan(user_id, amount, description, credit_score):
     return loan_request
 
 
+#Handles loan approval or denial
 def approve_or_deny_loan(user_id, loan_id, approve=True):
-    """Handles loan approval or denial."""
     community_ref = db.collection("community").document("fund")
     community = community_ref.get().to_dict()
 
@@ -169,10 +166,8 @@ def approve_or_deny_loan(user_id, loan_id, approve=True):
 
     return loan
 
+# Retrieves all pending loan requests from the community fund, displaying user names instead of user IDs.
 def get_all_pending_loans():
-    """
-    Retrieves all pending loan requests from the community fund, displaying user names instead of user IDs.
-    """
     community_ref = db.collection("community").document("fund")
     community = community_ref.get().to_dict()
 
@@ -266,7 +261,7 @@ def make_loan_payment(user_id, payment_amount):
 
 
 def withdraw_from_community(user_id, amount):
-    """Allows a user to withdraw their contributions from the community fund."""
+    # Allows a user to withdraw their contributions from the community fund
     community_ref = db.collection("community").document("fund")
     community = community_ref.get().to_dict()
 
@@ -300,7 +295,7 @@ def withdraw_from_community(user_id, amount):
 def distribute_interest(interest, contributors):
     """
     Distribute the earned interest proportionally among contributors.
-    Args:
+    Arguments:
         interest (float): The total interest earned from a loan repayment.
         contributors (list): List of contributors with their user_id and amount.
     """
@@ -325,7 +320,7 @@ def calculate_emi(amount, credit_score = 700, months=12):
     """
     Calculate EMI (Equated Monthly Installment) for a loan.
     
-    Args:
+    Arguments:
         amount (float): The principal loan amount.
         credit_score (int): The borrower's credit score.
         months (int): The repayment period in months (default is 12 months).
@@ -350,10 +345,8 @@ def calculate_emi(amount, credit_score = 700, months=12):
     return round(emi, 2)
 
 
+# Retrieves the total interest earned by the community.
 def get_community_interest():
-    """
-    Retrieves the total interest earned by the community.
-    """
     community_ref = db.collection("community").document("fund")
     community = community_ref.get().to_dict()
 
@@ -370,7 +363,9 @@ def get_community_interest():
 
 def get_community_fund_details():
     """
-    Retrieves community fund details, including contributors (with names), loans, and interest earned.
+    Retrieves community fund details, 
+    including contributors (with names), 
+    loans, and interest earned.
     """
     community_ref = db.collection("community").document("fund")
     community = community_ref.get().to_dict()

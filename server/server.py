@@ -17,7 +17,7 @@ except ValueError:
 
 db = firestore.client()
 
-from fraudLLM import fraud_detection
+from rag import fraud_detection
 from credit_prediction import prediction
 from user_functions import create_user, get_user_by_id, deposit_money, get_wallet_balance
 from transaction_functions import create_transaction, transfer_money, get_transactions_by_user
@@ -106,6 +106,7 @@ def get_users(user_id):
     doc = user_ref.get()
     return doc.to_dict()
 
+# MOVE THIS FUNCTION TO SEPERATE FILE FOR CLARITY!!!!
 @app.route('/credit/<user_id>', methods=["GET"])
 def get_user_credit(user_id):
     transactions = get_transactions_by_user(user_id)
@@ -181,7 +182,7 @@ def get_user_credit_endpoint(user_id):
 
 
 
-#community endpoints
+# community endpoints
 
 @app.route("/community/fund", methods=["GET"])
 def get_community_fund():

@@ -18,10 +18,11 @@ li{
     cursor: pointer;
     transition: background-color 0.3s ease;
     text-decoration: none;
+    border-radius: 5px;
 }
 
 li:hover{
-    background-color: #45a049;
+    background-color: #19082f;
 }
 
 a{

@@ -146,6 +146,6 @@ category_accuracy = np.mean(np.array(y_test_categories) == np.array(y_pred_categ
 
 # Save the trained model
 import joblib
-model_file_path = "../credit_score_model2.pkl"
+model_file_path = "./credit_score_model2.pkl"
 joblib.dump(model, model_file_path)
 print(f"\nModel saved to: {model_file_path}")

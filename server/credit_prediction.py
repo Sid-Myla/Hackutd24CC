@@ -4,7 +4,7 @@ import pandas as pd
 
 def prediction(income, loans):
     # Load model from pickle file
-    model = joblib.load('../credit_score_model2.pkl')
+    model = joblib.load('./credit_score_model2.pkl')
 
     features = [
         'Delay_from_due_date', 'Num_of_Delayed_Payment', 

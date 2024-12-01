@@ -14,4 +14,4 @@ Unit testing for API routes, still being currently updated for more modular test
 
 ### credit_prediction.py
 Machine Learning model used to generate credit scores, utlizies the model created in test_ml.py.
-Training data is found in train_credit.csv
+Training data is found in ../train_credit.csv

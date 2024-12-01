@@ -15,3 +15,6 @@ Unit testing for API routes, still being currently updated for more modular test
 ### credit_prediction.py
 Machine Learning model used to generate credit scores, utlizies the model created in test_ml.py.
 Training data is found in train_credit.csv
+
+## For MLH
+Most of the code in this sample is contributed by me. The only files implemented by my teammate are investment_functions.py and community_functions.py
